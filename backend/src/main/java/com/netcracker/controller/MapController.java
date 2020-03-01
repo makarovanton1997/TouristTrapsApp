@@ -69,12 +69,10 @@ public class MapController {
             HttpServletRequest request,
             @PathVariable("qquuid") String qquuid) {
         System.out.println("uploadDelete() called");
-        String fileName = (String) request.getSession()
-                .getAttribute(qquuid);
+        String fileName = (String) request.getSession().getAttribute(qquuid);
         try {
             if (fileName != null) {
-                Path path = Paths
-                        .get(UPLOADED_FOLDER + fileName);
+                Path path = Paths.get(UPLOADED_FOLDER + fileName);
                 Files.delete(path);
             }
         } catch (IOException e) {
@@ -100,8 +98,7 @@ public class MapController {
         Map<String, Object> data = new HashMap<>();
 
         if (file.isEmpty()) {
-            request.setAttribute("message",
-                    "Please select a file to upload");
+            request.setAttribute("message", "Please select a file to upload");
             return "uploadStatus";
         }
 
@@ -109,23 +106,18 @@ public class MapController {
             String qquuid = request.getParameter("qquuid");
             System.out.println("qquuid=" + qquuid);
             if (qquuid != null) {
-                request.getSession().setAttribute(qquuid,
-                        file.getOriginalFilename());
+                request.getSession().setAttribute(qquuid, file.getOriginalFilename());
             }
 
 
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER
-                    + file.getOriginalFilename());
+            Path path = Paths.get(UPLOADED_FOLDER + file.getOriginalFilename());
             // Files.write(path, bytes);
 
             String uuidFile = UUID.randomUUID().toString();
             String resultFilename = uuidFile + file.getOriginalFilename();
             file.transferTo(new File(UPLOADED_FOLDER + "/" + resultFilename));
 
-          //  request.setAttribute("message",
-              //      "You have successfully uploaded '"
-                 //           + file.getOriginalFilename() + "'");
 
             Integer routeID1 = (Integer) session.getAttribute("routeIdd");
             System.out.println("RouteIdPhoto=" + routeID1);
